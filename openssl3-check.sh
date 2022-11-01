@@ -23,6 +23,9 @@ if [[ $($ID -u) -ne 0 ]]; then
     exit 1;
 fi
 
+# print hostname
+$ECHO "[info] Hostname: $HOSTNAME";
+
 # check os version
 if [ -f "/etc/os-release" ]; then
   os_version=$($AWK -F'=' '/PRETTY_NAME/ {print $2}' /etc/os-release | $AWK -F'"' '{print $2}');
