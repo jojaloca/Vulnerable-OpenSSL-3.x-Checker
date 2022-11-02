@@ -37,7 +37,7 @@ else
   $ECHO "[info] Can not determine OS: ${os_version}";
 fi
 
-# check openssl version
+# check OpenSSL version
 $ECHO "[info] Checking OpenSSL version installed (SO)"
 if [ -f "$OPENSSL" ]; then
   openssl_version=$($OPENSSL version);
@@ -50,17 +50,17 @@ else
   $ECHO "[info] OpenSSL not found in OS";
 fi
 
-# search openssl libraries in system
+# search OpenSSL3 libraries in system
 $ECHO "[info] Searching vulnerable OpenSSL library (System)"
 libraries_found=$($FIND / -type f '(' -name "libcrypto3.so" -o -name "libcrypto.so.3" -o -name "libssl3.so" -o -name "libssl.so.3" -o -name "libssl3.a" -o -name "libssl.a.3" -o -name "libcrypto3.a" -o -name "libcrypto.a.3" ')' 2>/dev/null)
-if [[ $($ECHO "$libraries_found" | $WC -w) ]]; then
+if [[ $($ECHO "$libraries_found" | $WC -w) -ge 0 ]]; then
   $ECHO "[critical] OpenSSL vulnerable library found in system";
   for file in $libraries_found; do
     $ECHO $file;
   done;
 fi
 
-# check processes with vulnerable OpenSSL dynamic library loaded
+# check processes with vulnerable OpenSSL3 dynamic library loaded
 $ECHO "[info] Checking system processes with vulnerable OpenSSL library loaded (dynamic linked)";
 vulnerable_processes=$($SUDO $LSOF -n 2>/dev/null | $GREP -E 'libssl3.so|libssl.so.3|libcrypto3.so|libcrypto.so.3' | $AWK '{print $2}' | $SHORT -n | $UNIQ);
 if [[ $($ECHO -n vulnerable_processes | $WC -l) -ge 0 ]]; then
