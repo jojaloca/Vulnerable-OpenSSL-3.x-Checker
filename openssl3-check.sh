@@ -16,7 +16,6 @@ SUDO=$(which sudo)
 ECHO=$(which echo)
 PS=$(which ps)
 WC=$(which wc)
-STRINGS=$(which strings)
 FIND=$(which find)
 
 REGEX='^OpenSSL 3.0.[0-6]'
